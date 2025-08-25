@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3308/rentailvehical?useSSL=false&serverTimezone=UTC
+    username: root
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # ✅ Tự động tạo bảng
+    show-sql: true       # (tuỳ chọn) Hiển thị câu SQL khi chạy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  
