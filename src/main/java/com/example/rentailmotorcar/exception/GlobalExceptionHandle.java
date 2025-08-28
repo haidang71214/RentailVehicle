@@ -1,6 +1,8 @@
 package com.example.rentailmotorcar.exception;
 
+import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.text.ParseException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.rentailmotorcar.dto.response.ApiResponse;
+import com.nimbusds.jose.JOSEException;
+
+import jakarta.mail.MessagingException;
 
 @ControllerAdvice
 public class GlobalExceptionHandle {
-   //"cấu hình lại cái runtime exception"
-   // ở đây bao gồm những class mà mình muốn bắt, và respone lại nó
-   private ErrorCode errorCode;
    @ExceptionHandler(value = RuntimeException.class)
    // khi mình khai báo như này thì nó tự lấy thông tin của thằng truyền vào và nhả ra cái đẹp hơn
       ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception){
@@ -61,5 +63,43 @@ public ResponseEntity<ApiResponse> handleAccessDenied(RuntimeException exception
             apiResponse.setCode(errorCode.getCode());
             apiResponse.setMessage(errorCode.getMessage());
          return ResponseEntity.status(errorCode.getStatusCode()).body(apiResponse);
+   }
+   // MessagingException chỗ này tí thử xong add vào
+   @ExceptionHandler(value = MessagingException.class)
+   ResponseEntity<ApiResponse> handlingMessagingException(MessagingException exception){
+       ErrorCode errorCode = ErrorCode.EMAIL_ERROR;
+    return ResponseEntity.status(errorCode.getStatusCode()).body(
+        ApiResponse.builder()
+            .code(errorCode.getCode())
+            .message(errorCode.getMessage())
+            .build()
+    );
+   }
+   // IOException
+      @ExceptionHandler(value = IOException.class)
+   ResponseEntity<ApiResponse> handlingIOException(IOException exception){
+       ErrorCode errorCode = ErrorCode.EMAIL_ERROR;
+    return ResponseEntity.status(errorCode.getStatusCode()).body(
+        ApiResponse.builder()
+            .code(errorCode.getCode())
+            .message(errorCode.getMessage())
+            .build()
+    );
+   }
+   // JOSEException
+   @ExceptionHandler(value = JOSEException.class)
+   ResponseEntity<ApiResponse> handingJOSEException(JOSEException exception){
+      ErrorCode errorCode = ErrorCode.SIGNAL_KEY_NOT_VAILID;
+      return ResponseEntity.status(errorCode.getStatusCode()).body(
+         ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
+      );
+   }
+   // ParseException
+   @ExceptionHandler(value = ParseException.class)
+    ResponseEntity<ApiResponse> handingParseException(ParseException exception){
+      ErrorCode errorCode = ErrorCode.SIGNAL_KEY_NOT_VAILID;
+      return ResponseEntity.status(errorCode.getStatusCode()).body(
+         ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
+      );
    }
 }

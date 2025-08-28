@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.rentailmotorcar.dto.request.PermissionRequest;
 import com.example.rentailmotorcar.dto.response.ApiResponse;
 import com.example.rentailmotorcar.dto.response.PermissionResponse;
-import com.example.rentailmotorcar.dto.response.RoleResponse;
-import com.example.rentailmotorcar.entity.Permission;
-import com.example.rentailmotorcar.repository.PermissionRepository;
 import com.example.rentailmotorcar.service.PermissionService;
 
 import lombok.AccessLevel;

@@ -1,8 +1,18 @@
 package com.example.rentailmotorcar.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import java.io.IOException;
 
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.rentailmotorcar.dto.request.UserRequestDto;
+import com.example.rentailmotorcar.dto.response.ApiResponse;
+import com.example.rentailmotorcar.dto.response.UserResponseDto;
 import com.example.rentailmotorcar.service.UserService;
 
 import lombok.AccessLevel;
@@ -15,5 +25,15 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class UserController {
     UserService userService;
-    
+
+   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+public ApiResponse<UserResponseDto> createUser(
+    // form data 
+        @RequestPart("user") UserRequestDto userRequestDto,
+        @RequestPart(value = "avatar", required = false) MultipartFile avatar) throws IOException {
+    return ApiResponse.<UserResponseDto>builder()
+            .code(200)
+            .results(userService.createUser(userRequestDto, avatar))
+            .build();
+}
 }

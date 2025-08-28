@@ -3,7 +3,7 @@ package com.example.rentailmotorcar.enums;
 public enum UserRole {
     ADMIN, 
     CLIENT,
-    RETAILER
+    OWNER
 }
 /*permission:
  * - curd user

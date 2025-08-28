@@ -33,4 +33,9 @@ public class User {
 // mấy cái này tí nhớ ẩn trong mapper
    @ManyToMany
    Set<Role> roles;
+
+   String facebookId;
+   String refreshtoken;
+   String resetToken;
+ 
 }
