@@ -27,9 +27,10 @@ public class ApplicationInitConfig {
          var roleAdmin = UserRole.ADMIN.name();
          HashSet<String> role = new HashSet<>();
          role.add(roleAdmin);
-
+         
          User user = User.builder().username("admin")
          .password(passwordEncoder.encode("123456789"))
+         .email("haidang71214@gmail.com")
          // .roles(role)
          .build();
          userRepository.save(user);

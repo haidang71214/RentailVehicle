@@ -9,6 +9,7 @@ import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.example.rentailmotorcar.dto.response.ApiResponse;
 import com.nimbusds.jose.JOSEException;
@@ -98,6 +99,14 @@ public ResponseEntity<ApiResponse> handleAccessDenied(RuntimeException exception
    @ExceptionHandler(value = ParseException.class)
     ResponseEntity<ApiResponse> handingParseException(ParseException exception){
       ErrorCode errorCode = ErrorCode.SIGNAL_KEY_NOT_VAILID;
+      return ResponseEntity.status(errorCode.getStatusCode()).body(
+         ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
+      );
+   }
+   // NoResourceFoundException
+   @ExceptionHandler(value = NoResourceFoundException.class)
+    ResponseEntity<ApiResponse> handingNoResourceFoundException(NoResourceFoundException exception){
+      ErrorCode errorCode = ErrorCode.API_NOT_FOUND;
       return ResponseEntity.status(errorCode.getStatusCode()).body(
          ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
       );

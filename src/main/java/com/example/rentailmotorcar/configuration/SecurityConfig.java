@@ -26,17 +26,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @EnableMethodSecurity // thực tế thì đây là cách phân quyền được sử dụng phổ biển hơn trong các dự án
 public class SecurityConfig {
-     String[] POST_PUBLIC_ENDPOINTS ={"/auth/**","/permission/**","/role/**"};
+    String [] PATCH_PUBLIC={"/users/**"};
+    String[] POST_PUBLIC_ENDPOINTS ={"/auth/**","/permission/**","/role/**","/users/**"};
     String[] GET_PUBLIC_ENDPOINT ={"/permission/**","/role/**"};
-    	private static final String[] WHITE_LIST_URL = { "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs",
-			"/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
-			"/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
-			"/api/test/**", "/authenticate" };
+    String [] SWAGGEER_PUBLIC_ENDPOINT={"/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html"};
         @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(request -> request
-                .requestMatchers(WHITE_LIST_URL).permitAll()
+            .requestMatchers(SWAGGEER_PUBLIC_ENDPOINT).permitAll()
+            .requestMatchers(HttpMethod.PATCH,PATCH_PUBLIC).permitAll()
                 .requestMatchers(HttpMethod.GET,GET_PUBLIC_ENDPOINT).permitAll()
                 .requestMatchers(HttpMethod.POST,POST_PUBLIC_ENDPOINTS).permitAll()  // Cho phép truy cập không cần token
                 .anyRequest().authenticated()           

@@ -16,7 +16,7 @@ public class SwaggerConfig {
 	public OpenAPI customOpenAPI() {
 		
 		return new OpenAPI()
-				.info(new Info().title("JavaInUse Authentication Service"))				
+				.info(new Info().title("Hehe"))				
 				.addSecurityItem(new SecurityRequirement().addList("JavaInUseSecurityScheme"))
 				.components(new Components().addSecuritySchemes("JavaInUseSecurityScheme", new SecurityScheme()
 						.name("JavaInUseSecurityScheme").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));

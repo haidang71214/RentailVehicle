@@ -24,6 +24,7 @@ public enum ErrorCode {
    RESETCODE_ERROR(1014,"Reset code error",HttpStatus.BAD_REQUEST),
    SIGNAL_KEY_NOT_VAILID(1015,"Key error",HttpStatus.BAD_GATEWAY),
    SIGNKEY_ERROR(1016,"Parse error",HttpStatus.BAD_GATEWAY),
+   API_NOT_FOUND(1017,"Wrong API !!",HttpStatus.BAD_REQUEST),
    UNAUTHENTICATED(1009,"Lỗi không xác thực",HttpStatus.UNAUTHORIZED);
    
    private int code;

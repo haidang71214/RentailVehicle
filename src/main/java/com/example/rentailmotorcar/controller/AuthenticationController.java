@@ -3,6 +3,7 @@ package com.example.rentailmotorcar.controller;
 import java.text.ParseException;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,16 +15,18 @@ import com.example.rentailmotorcar.dto.response.IntroSpectResponse;
 import com.example.rentailmotorcar.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
-@RequestMapping("/permission")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class AuthenticationController {
    AuthenticationService authenticationService;
    // login
-   @PostMapping
+   @PostMapping("/login")
    public ApiResponse<AuthenticationResponse> loginUser(@RequestBody AuthenticationRequest authenticationRequest){
       return ApiResponse.<AuthenticationResponse>builder()
       .code(200)
@@ -31,7 +34,7 @@ public class AuthenticationController {
       .build();
    }
    // check token
-   @PostMapping 
+   @PostMapping("/introspect")
    public ApiResponse<IntroSpectResponse> introspectToken(@RequestBody IntroSpectRequest introSpectRequest)throws JOSEException,ParseException{
       return ApiResponse.<IntroSpectResponse>builder()
       .code(200)

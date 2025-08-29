@@ -34,17 +34,20 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@Slf4j
 public class AuthenticationService {
       UserRepository userRepository;
       PasswordEncoder passwordEncoder;
       @NonFinal // đánh dấu nonfinal để nó không inject vào lombok ở trên
       protected static final String SIGNAL_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
-      public AuthenticationResponse loginUser(AuthenticationRequest authenticationRequest){
+         public AuthenticationResponse loginUser(AuthenticationRequest authenticationRequest){
+
          User user = userRepository.findByEmail(authenticationRequest.getEmail()).orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND));
          boolean results = passwordEncoder.matches(authenticationRequest.getPassword(), user.getPassword());
         if (!results) {

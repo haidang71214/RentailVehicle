@@ -78,7 +78,7 @@ public class UserService {
       return userMapper.toUserResponseDto(userhehe);
    }
    // admin update user
-   @PreAuthorize("hasRole('ADMIN')")
+   // @PreAuthorize("hasRole('ADMIN')")
    public UserResponseDto updateUser(String userId,UserRequestDto userRequestDto,MultipartFile avatar) throws IOException{
       // 
       User user = userRepository.findById(userId).orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND)); // user cũ
@@ -91,17 +91,23 @@ public class UserService {
       if(userRequestDto.getPassword() != null){
            user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
       }
+      
       if(avatar != null && !avatar.isEmpty()){
-         user.setImageUrl(cloudinaryService.uploadFile(avatar));
+         log.info("Avatar received: name={}, size={}", avatar.getOriginalFilename(), avatar.getSize());
+    user.setImageUrl(cloudinaryService.uploadFile(avatar));
+    log.error("aaaaaaaaaa"); // Kiểm tra log này
       }
 
       // lấy mảng role mới áp vào mảng cũ
-        if (userRequestDto.getRoles() != null && !userRequestDto.getRoles().isEmpty()) {
-        Set<Role> roles = userRequestDto.getRoles().stream()
+     if (userRequestDto.getRoles() != null) { // Chỉ kiểm tra null, không kiểm tra isEmpty
+        Set<Role> roles = new HashSet<>();
+        if (!userRequestDto.getRoles().isEmpty()) {
+            roles = userRequestDto.getRoles().stream()
                 .map(roleName -> roleRepository.findById(roleName)
-                        .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)))
+                    .orElseThrow(() -> new AppException(ErrorCode.ROLE_NOT_FOUND)))
                 .collect(Collectors.toSet());
-        user.setRoles(roles);
+        }
+        user.setRoles(roles); // Cập nhật roles, kể cả khi rỗng
     }
     return userMapper.toUserResponseDto(userRepository.save(user));
    }
