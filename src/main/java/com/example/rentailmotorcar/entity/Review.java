@@ -22,7 +22,6 @@ public class Review {
    String id;
    @ManyToOne //1 sản phẩm có nhiều review
    Vehicle vehicle;
-
    @ManyToOne // 1 user có nhiều review
    User user;
    String title;

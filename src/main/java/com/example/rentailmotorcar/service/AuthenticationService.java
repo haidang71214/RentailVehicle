@@ -62,7 +62,8 @@ public class AuthenticationService {
       // claim 
          
          JWTClaimsSet jwtClaimsSet  = new JWTClaimsSet.Builder()
-         .subject(user.getUsername()) // đại diện cho user đăng nhập 
+       // đại diện cho user đăng nhập 
+         .subject(user.getId())
          //.issuer(name) //  xác định token được issuer từ ai, thông thường nó sẽ lấy từ domain service
          .issueTime(new Date())
          .expirationTime(new Date(

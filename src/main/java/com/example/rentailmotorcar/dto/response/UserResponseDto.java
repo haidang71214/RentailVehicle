@@ -13,6 +13,7 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserResponseDto{
+   String id;
    String username;
    @Size(min = 6, message = "PASSWORD_INVALID")
    String password;

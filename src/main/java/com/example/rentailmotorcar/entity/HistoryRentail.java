@@ -5,8 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,9 +23,9 @@ public class HistoryRentail {
    String id;
    @ManyToOne  // người thuê
    User renter; 
-   @ManyToOne
-   User owner; // người cho thuê
-   @ManyToMany // 1 lần có thể thuê nhiều xe, 1 xe có thể thuê nhiều lần
+   @OneToMany
+   Set<User> owner; // người cho thuê
+   @OneToMany // 1 lần có thể thuê nhiều xe
    Set<Vehicle> vehicles; 
    java.time.LocalDateTime startTime; // thời gian bắt đầu thuê
    java.time.LocalDateTime endTime;

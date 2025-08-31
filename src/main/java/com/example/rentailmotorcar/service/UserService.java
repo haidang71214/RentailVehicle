@@ -112,7 +112,7 @@ public class UserService {
     return userMapper.toUserResponseDto(userRepository.save(user));
    }
    // user update user
-      @PostAuthorize("returnObj.username == authentication.name")
+@PostAuthorize("returnObject.id == authentication.name")
       public UserResponseDto userUpdateUser(String userId,UserRequestDto userRequestDto,MultipartFile avatar) throws IOException{
       // 
       User user = userRepository.findById(userId).orElseThrow(()->new AppException(ErrorCode.USER_NOT_FOUND)); // user cũ
@@ -140,7 +140,7 @@ public class UserService {
     return userMapper.toUserResponseDto(userRepository.save(user));
    }
 // forgot password
-  public void sendCodeToEmail(String email) throws MessagingException {
+  public Void sendCodeToEmail(String email) throws MessagingException {
    User user = userRepository.findByEmail(email).orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
     String resetToken = UUID.randomUUID().toString();
     user.setResetToken(resetToken);
@@ -150,16 +150,17 @@ public class UserService {
             ",\n\nMã khôi phục của bạn là: " + resetToken +
             "\nMã này sẽ hết hạn sau 15 phút.\n\nTrân trọng!";
     
-    mailService.sendMail(user.getEmail(), subject, content);
-
+     mailService.sendMail(user.getEmail(), subject, content);
+   return null;
 }
 
 // reset password
- public void checkResetToken(String token,String newPassword){
+ public Void checkResetToken(String token,String newPassword){
       User user = userRepository.findByResetToken(token).orElseThrow(()->new AppException(ErrorCode.RESETCODE_ERROR));
       user.setPassword(newPassword);
+      return null;
  }
  // login fb
  // nếu k có thì tạo mới, nếu có thì tạo key như login
- 
+ // get all user
 }
