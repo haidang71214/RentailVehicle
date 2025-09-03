@@ -41,6 +41,7 @@ public class Vehicle {
    User owner;
 
    // tạo bảng riêng
+   // khi tới hết hạn thì xóa cái rentailer đi 
    @OneToOne // 1 phương tiện chỉ có 1 người thuê
    User rentailer;
    @OneToMany

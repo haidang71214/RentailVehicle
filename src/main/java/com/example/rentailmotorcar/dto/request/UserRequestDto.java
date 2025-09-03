@@ -2,6 +2,7 @@ package com.example.rentailmotorcar.dto.request;
 import java.util.Set;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -13,12 +14,15 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class UserRequestDto{
+   @Size(min = 6, message = "USERNAME_INVALIDS")
+   @NotNull(message = "NAME_NOT_NULL")
    String username;
-   @Size(min = 6, message = "PASSWORD_INVALID")
+   @Size(min = 6, message = "PASSWORD_INVALID")   
+   @NotNull(message = "PASSWORD_INVALID")
    String password;
    String imageUrls;
    @Email(message = "EMAIL_NOT_VAILID")
    String email;
    Set<String> roles;
-   // Set<String> reviews; // những cái mảng nó sẽ ẩn trong mapper và gán lại ở service, hoặc để riêng ra, do nó sẽ nặng perfoment
+   
 }

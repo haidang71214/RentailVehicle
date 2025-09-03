@@ -12,6 +12,7 @@ import com.example.rentailmotorcar.entity.Vehicle;
 public interface VehicleMapper {
    @Mapping(target = "owner",ignore = true)
    @Mapping(target = "rentailer",ignore = true)
+   @Mapping(target = "star", ignore = true)
    @Mapping(target = "reviews",ignore = true) // ẩn đi cái reviews, vì cái review nó là khi được thuê mới map vô
    Vehicle toVehicle(VehicleRequest vehicleRequest);
    

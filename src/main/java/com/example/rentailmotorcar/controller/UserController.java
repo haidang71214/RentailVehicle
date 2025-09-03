@@ -20,6 +20,7 @@ import com.example.rentailmotorcar.dto.response.UserResponseDto;
 import com.example.rentailmotorcar.service.UserService;
 
 import jakarta.mail.MessagingException;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -34,7 +35,7 @@ public class UserController {
    @PostMapping(value = "/createUser" , consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ApiResponse<UserResponseDto> createUser(
     // form data 
-         @ModelAttribute UserRequestDto userRequestDto,
+        @Valid @ModelAttribute UserRequestDto userRequestDto,
         @RequestPart(value = "avatar", required = false) MultipartFile avatar) throws IOException {
     return ApiResponse.<UserResponseDto>builder()
             .code(200)
@@ -45,7 +46,7 @@ public ApiResponse<UserResponseDto> createUser(
      @PostMapping(value = "/register",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 public ApiResponse<UserResponseDto> register(
     // form data 
-        @ModelAttribute UserRequestDto userRequestDto,
+        @Valid @ModelAttribute UserRequestDto userRequestDto,
         @RequestPart(value = "avatar", required = false) MultipartFile avatar) throws IOException {
     return ApiResponse.<UserResponseDto>builder()
             .code(200)

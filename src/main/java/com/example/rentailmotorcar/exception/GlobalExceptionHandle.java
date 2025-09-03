@@ -111,4 +111,12 @@ public ResponseEntity<ApiResponse> handleAccessDenied(RuntimeException exception
          ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
       );
    }
+   //IllegalStateException
+    @ExceptionHandler(value = IllegalStateException.class)
+    ResponseEntity<ApiResponse> handingIllegalStateException(IllegalStateException exception){
+      ErrorCode errorCode = ErrorCode.ILLEGAL_STATE;
+      return ResponseEntity.status(errorCode.getStatusCode()).body(
+         ApiResponse.builder().code(errorCode.getCode()).message(errorCode.getMessage()).build()
+      );
+   }
 }

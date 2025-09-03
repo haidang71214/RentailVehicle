@@ -10,6 +10,6 @@ import com.example.rentailmotorcar.entity.HistoryRentail;
 public interface HistoryRentalMapper {
    @Mapping(target = "vehicles",ignore = true)
    @Mapping(target = "owner", ignore = true)
-   HistoryRentail toHoHistoryRentail(HistoryRentalVehicleRequest historyRentalVehicleRequest);
+   HistoryRentail toHistoryRentail(HistoryRentalVehicleRequest historyRentalVehicleRequest);
    HistoryRentalResponse toHistoryRentalResponse(HistoryRentail historyRentail);
 }

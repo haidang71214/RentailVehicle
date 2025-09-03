@@ -4,7 +4,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,18 +25,15 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @EnableMethodSecurity // thực tế thì đây là cách phân quyền được sử dụng phổ biển hơn trong các dự án
 public class SecurityConfig {
-    String [] PATCH_PUBLIC={"/users/**"};
-    String[] POST_PUBLIC_ENDPOINTS ={"/auth/**","/permission/**","/role/**","/users/**"};
-    String[] GET_PUBLIC_ENDPOINT ={"/permission/**","/role/**"};
+    String [] PUBLIC={"/auth/**","/permission/**","/role/**","/users/**"};
     String [] SWAGGEER_PUBLIC_ENDPOINT={"/v3/api-docs/**","/swagger-ui/**","/swagger-ui.html"};
         @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(request -> request
             .requestMatchers(SWAGGEER_PUBLIC_ENDPOINT).permitAll()
-            .requestMatchers(HttpMethod.PATCH,PATCH_PUBLIC).permitAll()
-                .requestMatchers(HttpMethod.GET,GET_PUBLIC_ENDPOINT).permitAll()
-                .requestMatchers(HttpMethod.POST,POST_PUBLIC_ENDPOINTS).permitAll()  // Cho phép truy cập không cần token
+            .requestMatchers(PUBLIC).permitAll()    
+            // Cho phép truy cập không cần token
                 .anyRequest().authenticated()           
             );
             http.csrf(AbstractHttpConfigurer::disable);

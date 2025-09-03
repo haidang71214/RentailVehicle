@@ -23,7 +23,7 @@ public class MailService {
         helper.setFrom(mailConfig.getUsername()); 
         helper.setTo(to);
         helper.setSubject(subject);
-
+        helper.setText(content, true);
         mailSender.send(message);
     }
 }

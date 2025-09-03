@@ -37,5 +37,5 @@ public class User {
    String facebookId;
    String refreshtoken;
    String resetToken;
- 
+
 }

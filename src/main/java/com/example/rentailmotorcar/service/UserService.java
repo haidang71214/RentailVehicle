@@ -58,7 +58,7 @@ public class UserService {
       return userMapper.toUserResponseDto(user);
    }
 // đăng kí thì auto là client
-   public UserResponseDto registerUser(UserRequestDto userRequestDto,MultipartFile avatar) throws IOException{
+   public UserResponseDto registerUser( UserRequestDto userRequestDto,MultipartFile avatar) throws IOException{
          User user = userMapper.toUser(userRequestDto);
       if(avatar != null && !avatar.isEmpty()){
          user.setImageUrl(cloudinaryService.uploadFile(avatar));

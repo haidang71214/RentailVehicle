@@ -16,6 +16,5 @@ public class VehicleResponse {
    int price; // giá
    BrandEnums brand;
    String owner;
-   String rentailer;
    Set<ReviewResponse> reviews;
 }

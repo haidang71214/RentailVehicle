@@ -7,7 +7,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +24,4 @@ public class RoomChat {
    String id;
    @ManyToMany
    Set<User> user; // 1 room thì có nhiều user, usr tham gia được nhiều room
-   @OneToMany
-   Set<HistoryConversation> historyConversations;
 }

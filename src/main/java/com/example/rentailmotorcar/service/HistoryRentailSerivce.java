@@ -34,7 +34,7 @@ public class HistoryRentailSerivce {
    // get history
    // create history (inject qua cai phuong tien de no tao)
    public HistoryRentalResponse createHistoryRental(HistoryRentalVehicleRequest historyRentalVehicleRequest){
-      HistoryRentail historyRentail = historyMapper.toHoHistoryRentail(historyRentalVehicleRequest); 
+      HistoryRentail historyRentail = historyMapper.toHistoryRentail(historyRentalVehicleRequest); 
       var vehicles = vehicleRepository.findAllById(historyRentalVehicleRequest.getVehicles());
       historyRentail.setVehicles(new HashSet<>(vehicles));
       var owner = userRepository.findAllById(historyRentalVehicleRequest.getOwner());

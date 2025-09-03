@@ -25,4 +25,5 @@ public class Review {
    @ManyToOne // 1 user có nhiều review
    User user;
    String title;
+   int star;
 }
