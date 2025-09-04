@@ -29,7 +29,6 @@ public class RoomChatController {
       @RequestBody RoomChatRequest roomChatRequest
    ){
       return ApiResponse.<RoomChatResponse>builder()
-
       .code(200)
       .results(roomChatService.createRoomChat(roomChatRequest))
       .build();

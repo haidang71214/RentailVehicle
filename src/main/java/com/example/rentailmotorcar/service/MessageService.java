@@ -30,11 +30,13 @@ public class MessageService {
    ConversationRepository conversationRepository;
    RoomChatRepository roomChatRepositoryl;
    // phải đăng nhập thì mới được nhắn tin
+   
    @PreAuthorize("isAuthenticated()")
    public ConversationResponse createMessage(String roomId,ConversationRequest conversationRequest){
       Conversation conversation = conversationMapper.toConversation(conversationRequest);
       RoomChat roomChat = roomChatRepositoryl.findById(roomId).orElseThrow(()->new AppException(ErrorCode.ROOM_CHAT_NOT_FOUND));
       conversation.setRoomChat(roomChat);
+      conversation.setCreatedAt(LocalDateTime.now());
       conversationRepository.save(conversation);
       return conversationMapper.toConversationResponse(conversation);
    }

@@ -2,8 +2,6 @@ package com.example.rentailmotorcar.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import com.example.rentailmotorcar.dto.response.ConversationResponse;
 import com.example.rentailmotorcar.entity.Conversation;
 
 public interface ConversationRepository extends JpaRepository<Conversation,String>  {

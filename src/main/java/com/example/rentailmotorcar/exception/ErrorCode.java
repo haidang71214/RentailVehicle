@@ -42,7 +42,7 @@ public enum ErrorCode {
 ROOM_CHAT_NOT_FOUND(1028,"Room chat not valid",HttpStatus.BAD_REQUEST),
 MESSAGE_NOT_FOUND(1027,"Message not valid",HttpStatus.BAD_REQUEST),
 MESSAGE_CANNOT_DELETE(1030,"Message must delete before 30m",HttpStatus.BAD_REQUEST),
-
+OWNER_REUQEST_NOT_FOUND(1031,"Owner request not found",HttpStatus.BAD_REQUEST),
    UNAUTHENTICATED(1009,"UNAUTHENTICATED ERROR!!",HttpStatus.UNAUTHORIZED);
    
    private int code;

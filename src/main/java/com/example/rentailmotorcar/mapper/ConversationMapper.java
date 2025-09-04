@@ -12,6 +12,8 @@ public interface ConversationMapper  {
    @Mapping(target = "roomChat", ignore = true)
    @Mapping(target = "user", ignore = true)
    @Mapping(target = "id", ignore = true)
+   @Mapping(target = "createdAt", ignore = true)
    Conversation toConversation(ConversationRequest conversationRequest);
+   // nhớ check lại chỗ này xíu, vì mình để thời gi
    ConversationResponse toConversationResponse(Conversation conversation);
 }

@@ -11,7 +11,6 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class ConversationRequest {
-   String roomChat;
    String message;
    String user;
 }

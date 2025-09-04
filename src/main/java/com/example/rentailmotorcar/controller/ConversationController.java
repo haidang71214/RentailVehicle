@@ -1,12 +1,13 @@
 package com.example.rentailmotorcar.controller;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,44 +26,56 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level =  AccessLevel.PRIVATE,makeFinal = true)
 public class ConversationController {
    MessageService messageService;
-
-   @PostMapping("{id}")
+    SimpMessagingTemplate simpMessagingTemplate;
+//app/chat/{roomId 
+   @MessageMapping("chat/{roomId}")    // xác lập message bắn lên cái room
+   @SendTo("/topic/messages/{roomId}")  // gửi emit cho toàn bộ thằng user trong room
    public ApiResponse<ConversationResponse> sendMessage(
-      @PathVariable("id") String id,
-      @RequestBody ConversationRequest conversationRequest
-   ){
+      @DestinationVariable("roomId") String roomId,
+      @Payload ConversationRequest conversationRequest
+   ){ 
+      ConversationResponse conversationResponse = messageService.createMessage(roomId, conversationRequest);
+      simpMessagingTemplate.convertAndSend("/topic/room/" + roomId, conversationResponse);
       return ApiResponse.<ConversationResponse>builder()
       .code(200)
-      .results(messageService.createMessage(id, conversationRequest))
+      .results(conversationResponse)
       .build();
    } 
    //  get id from room
-   @GetMapping("{id}")
+   @GetMapping("{roomId}")
    public ApiResponse<List<ConversationResponse>> getConversation(
-      @PathVariable("id") String id
+      @PathVariable("roomId") String roomId
    ){
       return ApiResponse.<List<ConversationResponse>>builder()
       .code(200)
-      .results(messageService.getMessage(id))
+      .results(messageService.getMessage(roomId))
       .build();
    }
-   @DeleteMapping("{id}")
+   @MessageMapping("chat/delete/{roomId}/{messageId}")
    public ApiResponse<Void> deleteMessage(
-      @PathVariable("id") String id
+      @DestinationVariable("messageId") String messageId,
+      @DestinationVariable("roomId") String roomId
    ){
+      Void results = messageService.deleteMessage(messageId);
+      //  1 cách khác thay thế send to, cách này sẽ gửi response tới thằng roomId để thông báo là đã xóa message
+      simpMessagingTemplate.convertAndSend("topic/room/" + roomId, "deleted:" + messageId );
       return ApiResponse.<Void>builder()
       .code(200)
-      .results(messageService.deleteMessage(id))
+      .results(results)
       .build();
    }
-   @PatchMapping("{id}")
+   @MessageMapping("chat/update/{roomId}/{messageId}")
    public ApiResponse<ConversationResponse> updateMessage(
-      @PathVariable("id") String id,
-      @RequestBody ConversationRequest conversationRequest
+      @DestinationVariable String roomId,
+            @DestinationVariable String messageId,
+            @Payload ConversationRequest request
    ){
+        ConversationResponse response = messageService.update(messageId, request);
+        // broadcast lại cho room biết tin nhắn này đã được update
+        simpMessagingTemplate.convertAndSend("/topic/room/" + roomId, response);
       return ApiResponse.<ConversationResponse>builder()
       .code(200)
-      .results(messageService.update(id, conversationRequest))
+      .results(response)
       .build();
    }
 }
